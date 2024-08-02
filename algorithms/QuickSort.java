@@ -1,3 +1,4 @@
+//! Algoritmo Quick
 package algorithms;
 
 import java.util.List;
@@ -20,10 +21,10 @@ public class QuickSort implements SortAlgorithm {
     }
 
     private int partition(List<Piece> pieces, int low, int high) {
-        int pivot = Integer.parseInt(pieces.get(high).name);
+        Piece pivot = pieces.get(high);
         int i = low - 1;
         for (int j = low; j < high; j++) {
-            if (Integer.parseInt(pieces.get(j).name) < pivot) {
+            if (pieces.get(j).compareTo(pivot) <= 0) {
                 i++;
                 Collections.swap(pieces, i, j);
             }

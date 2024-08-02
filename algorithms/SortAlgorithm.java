@@ -1,6 +1,6 @@
+//! Interfaz
 package algorithms;
 
-//! Interfaz
 import java.util.List;
 import model.Piece;
 

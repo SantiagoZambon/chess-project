@@ -1,3 +1,4 @@
+//! Algoritmo Insertion
 package algorithms;
 
 import java.util.List;
@@ -10,7 +11,9 @@ public class InsertionSort implements SortAlgorithm {
         for (int i = 1; i < pieces.size(); i++) {
             Piece key = pieces.get(i);
             int j = i - 1;
-            while (j >= 0 && Integer.parseInt(pieces.get(j).name) > Integer.parseInt(key.name)) {
+
+
+            while (j >= 0 && pieces.get(j).compareTo(key) > 0) {
                 pieces.set(j + 1, pieces.get(j));
                 j--;
             }
