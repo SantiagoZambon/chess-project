@@ -7,7 +7,7 @@ public class ParameterValidator{
 
     // * Validacion algoritmo
     public static boolean validateAlgorithms(String sortAlgorithm) {
-        List<String> validAlgorithms = Arrays.asList("i", "q");
+        List<String> validAlgorithms = Arrays.asList("i", "q", "b");
 
         return validAlgorithms.contains(sortAlgorithm.toLowerCase());
     }
