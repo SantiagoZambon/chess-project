@@ -1,26 +1,38 @@
 
 //! Main
 import java.util.List;
+import java.util.Random;
 import model.Piece;
 import model.PieceFactory;
 import utils.ParameterValidator;
 import algorithms.SortAlgorithm;
+import algorithms.BubbleSort;
 import algorithms.InsertionSort;
 import algorithms.QuickSort;
 
 public class CHESS {
 
     public static void main(String[] args) {
-        if (args.length != 4) {
+        if (args.length != 4 && args.length != 3 && args.length != 2) {
             System.out.println(
-                    "Faltan parámetros. Uso: java CHESS a=<algoritmo (i or q)> t=<tipo (n or a)> c=<color (b or w)> r=<cantidad(MAX=16)>");
+                    "Faltan parámetros. Uso: java CHESS a=<algoritmo (i or q)> t=<tipo (n or a)> c=<color (b or w)> r=<cantidad (MAX=16)>");
             return;
         }
 
-        String sortAlgorithm = getParameter(args, "a");
+        // * Si a=null se escoge aleatoriamente el algoritmo
+        Random random = new Random();
+        String[] algorithms = { "i", "q", "b" };
+        String sortAlgorithm = (getParameter(args, "a") != null && !getParameter(args, "a").isEmpty())
+                ? getParameter(args, "a")
+                : algorithms[random.nextInt(algorithms.length)];
+
         char listType = getParameter(args, "t").charAt(0);
         char color = getParameter(args, "c").charAt(0);
-        int pieceCount = Integer.parseInt(getParameter(args, "r"));
+
+        // * Si r=null entonces r=16
+        int pieceCount = (getParameter(args, "r") != null && !getParameter(args, "r").isEmpty())
+                ? Integer.parseInt(getParameter(args, "r"))
+                : 16;
 
         // * Validaciones
         if (ParameterValidator.validateAlgorithms(sortAlgorithm)) {
@@ -74,6 +86,8 @@ public class CHESS {
                 return new InsertionSort();
             case "q":
                 return new QuickSort();
+            case "b":
+                return new BubbleSort();
             default:
                 return null;
         }
@@ -85,6 +99,8 @@ public class CHESS {
                 return "Insertion sort";
             case "q":
                 return "Quick sort";
+            case "b":
+                return "Bubble sort";
             default:
                 return "Invalid sort";
         }
