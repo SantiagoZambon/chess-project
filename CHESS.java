@@ -2,6 +2,8 @@
 //! Main
 import java.util.List;
 import java.util.Random;
+
+import model.Board;
 import model.Piece;
 import model.PieceFactory;
 import utils.ParameterValidator;
@@ -57,10 +59,16 @@ public class CHESS {
             PieceFactory factory = new PieceFactory();
             List<Piece> pieces = factory.generatePieces(listType, color, pieceCount);
             System.out.println("Valores: " + pieces);
+            // Creamos una instancia de Board
+            Board board = new Board(pieces, color);
+            // Imprimimos el tablero
+            board.imprimirTablero();
             SortAlgorithm sorter = getSorter(sortAlgorithm);
+
             if (sorter != null) {
-                sorter.sort(pieces);
-                System.out.println("Ordenamiento: " + pieces);
+                sorter.sort(board.getTablero());
+                System.out.println("\n");
+                board.imprimirTablero();
             } else {
                 System.out.println("Ordenamiento: []");
             }
