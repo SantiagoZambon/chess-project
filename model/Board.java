@@ -65,12 +65,12 @@ public class Board {
             System.out.println("+--++--++--++--++--++--++--++--+");
             for (int j = 0; j < 8; j++) {
 
-                if (tablero[i][j] != null) {
+                if (tablero[i][j] != null && !tablero[i][j].name.equals("0") && !tablero[i][j].name.equals("0")) {
                     String name = tablero[i][j].name;
 
                     if (isNumeric(name)) {
                         int value = Integer.parseInt(name);
-                        System.out.print(piezas[value] + " ");
+                        System.out.print("|" + piezas[value] + color + "|");
                     } else if (isAlphabetic(name)) {
                         int value = name.charAt(0) - 'a';
                         System.out.print("|" + letras[value] + color + "|");
@@ -91,6 +91,7 @@ public class Board {
                         }
                     }
                 }
+
             }
             System.out.println();
         }
