@@ -97,6 +97,15 @@ public class Board {
         }
     }
 
+    public void imprimirTableroConRetraso(int delay) {
+        imprimirTablero();
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
     private boolean isNumeric(String str) {
         try {
             Integer.parseInt(str);
@@ -109,5 +118,4 @@ public class Board {
     private boolean isAlphabetic(String str) {
         return str.matches("[a-p]");
     }
-
 }

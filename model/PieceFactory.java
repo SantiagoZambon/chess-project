@@ -33,12 +33,10 @@ public class PieceFactory {
 
         if (listType == 'n') {
             for (int i = 0; i < pieceCount; i++) {
-                System.out.println(pieces);
                 pieces.add(new Piece(valoresNum[i], color));
             }
         } else if (listType == 'c') {
             for (int i = 0; i < pieceCount; i++) {
-                System.out.println(pieces);
                 pieces.add(new Piece(valoresCar[i], color));
             }
         }

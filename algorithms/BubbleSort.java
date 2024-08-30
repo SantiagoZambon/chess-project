@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Collections;
 import model.Piece;
+import model.Board;
 
 public class BubbleSort implements SortAlgorithm {
 
@@ -22,19 +23,14 @@ public class BubbleSort implements SortAlgorithm {
         }
 
         // Orden para las letras
-        char[] charOrder = { 'c', 'g', 'e', 'b', 'a', 'f', 'h', 'd', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p'};
+        char[] charOrder = { 'c', 'g', 'e', 'b', 'a', 'f', 'h', 'd', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p' };
         for (int i = 0; i < charOrder.length; i++) {
-            customOrder.put(String.valueOf(charOrder[i]), i);
+            customOrder.put(String.valueOf(charOrder[i]), i + numOrder.length);
         }
     }
 
     @Override
-    public void sort(List<Piece> pieces) {
-        bubbleSort(pieces);
-    }
-
-    @Override
-    public void sort(Piece[][] tablero) {
+    public void sort(Piece[][] tablero, int delay, char color) {
         List<Piece> pieces = new ArrayList<>();
 
         // Recoger todas las piezas no nulas en una lista
@@ -47,12 +43,31 @@ public class BubbleSort implements SortAlgorithm {
         }
 
         // Ordenar la lista usando el método bubbleSort
-        sort(pieces);
+        bubbleSort(pieces, tablero, delay, color);
 
         // Asignar las piezas ordenadas de nuevo a la matriz
+        reconstruirTablero(tablero, pieces);
+    }
+
+    private void bubbleSort(List<Piece> pieces, Piece[][] tablero, int delay, char color) {
+        int n = pieces.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (compare(pieces.get(j), pieces.get(j + 1)) > 0) {
+                    Collections.swap(pieces, j, j + 1);
+
+                    // Imprimir el tablero después de cada intercambio
+                    reconstruirTablero(tablero, pieces);
+                    imprimirTableroConRetraso(tablero, delay, color);
+                }
+            }
+        }
+    }
+
+    private void reconstruirTablero(Piece[][] tablero, List<Piece> pieces) {
         int index = 0;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
                 if (index < pieces.size()) {
                     tablero[i][j] = pieces.get(index);
                     index++;
@@ -63,15 +78,29 @@ public class BubbleSort implements SortAlgorithm {
         }
     }
 
-    private void bubbleSort(List<Piece> pieces) {
-        int n = pieces.size();
-        for (int i = 0; i < n - 1; i++) {
-            for (int j = 0; j < n - i - 1; j++) {
-                if (compare(pieces.get(j), pieces.get(j + 1)) > 0) {
-                    Collections.swap(pieces, j, j + 1);
+    private void imprimirTableroConRetraso(Piece[][] tablero, int delay, char color) {
+        Board board = new Board(convertToList(tablero), color);
+
+        board.imprimirTablero();
+
+        // Retraso
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private List<Piece> convertToList(Piece[][] tablero) {
+        List<Piece> pieces = new ArrayList<>();
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+                if (tablero[i][j] != null) {
+                    pieces.add(tablero[i][j]);
                 }
             }
         }
+        return pieces;
     }
 
     private int compare(Piece a, Piece b) {

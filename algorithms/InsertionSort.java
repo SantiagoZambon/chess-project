@@ -1,68 +1,72 @@
 package algorithms;
 
+import model.Piece;
+import model.Board;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import model.Piece;
 
 public class InsertionSort implements SortAlgorithm {
 
     private Map<String, Integer> customOrder;
 
     public InsertionSort() {
-        // Definir el orden personalizado para números y letras
         customOrder = new HashMap<>();
-
-        // Orden para los números
-        int[] numOrder = { 0, 3, 7, 5, 2, 1, 6, 8, 4, 9, 10, 11, 12, 13, 14, 15, 16 };
+        
+        // Definir el orden para los números
+        int[] numOrder = {0, 3, 7, 5, 2, 1, 6, 8, 4, 9, 10, 11, 12, 13, 14, 15, 16};
         for (int i = 0; i < numOrder.length; i++) {
             customOrder.put(String.valueOf(numOrder[i]), i);
         }
 
-        // Orden para las letras
-        char[] charOrder = { 'c', 'g', 'e', 'b', 'a', 'f', 'h', 'd', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p' };
+        // Definir el orden para las letras
+        char[] charOrder = {'c', 'g', 'e', 'b', 'a', 'f', 'h', 'd', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p'};
         for (int i = 0; i < charOrder.length; i++) {
-            customOrder.put(String.valueOf(charOrder[i]), i);
+            customOrder.put(String.valueOf(charOrder[i]), i + numOrder.length);
         }
     }
 
-    @Override
-    public void sort(List<Piece> pieces) {
-        for (int i = 1; i < pieces.size(); i++) {
-            Piece key = pieces.get(i);
-            int j = i - 1;
-
-            while (j >= 0 && compare(pieces.get(j), key) > 0) {
-                pieces.set(j + 1, pieces.get(j));
-                j--;
-            }
-            pieces.set(j + 1, key);
-        }
-    }
 
     @Override
-    public void sort(Piece[][] tablero) {
-        List<Piece> pieces = new ArrayList<>();
+    public void sort(Piece[][] tablero, int delay, char color) {
+        int rows = tablero.length;
+        int cols = tablero[0].length;
 
-        // Recoger todas las piezas no nulas en una lista
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        // Convertir la matriz en un array unidimensional para facilitar el ordenamiento
+        List<Piece> allPieces = new ArrayList<>();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 if (tablero[i][j] != null) {
-                    pieces.add(tablero[i][j]);
+                    allPieces.add(tablero[i][j]);
                 }
             }
         }
 
-        // Ordenar la lista usando el método sort(List<Piece> pieces)
-        sort(pieces);
+        // Aplicar el algoritmo de inserción al array unidimensional
+        for (int i = 1; i < allPieces.size(); i++) {
+            Piece key = allPieces.get(i);
+            int j = i - 1;
 
-        // Asignar las piezas ordenadas de nuevo a la matriz
+            while (j >= 0 && compare(allPieces.get(j), key) > 0) {
+                allPieces.set(j + 1, allPieces.get(j));
+                j--;
+            }
+            allPieces.set(j + 1, key);
+
+            // Reconstruir la matriz después de cada paso
+            reconstruirTablero(tablero, allPieces);
+            imprimirTableroConRetraso(tablero, delay, color);
+        }
+    }
+
+    private void reconstruirTablero(Piece[][] tablero, List<Piece> allPieces) {
         int index = 0;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (index < pieces.size()) {
-                    tablero[i][j] = pieces.get(index);
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+                if (index < allPieces.size()) {
+                    tablero[i][j] = allPieces.get(index);
                     index++;
                 } else {
                     tablero[i][j] = null;
@@ -71,7 +75,38 @@ public class InsertionSort implements SortAlgorithm {
         }
     }
 
+    private void imprimirTableroConRetraso(Piece[][] tablero, int delay, char color) {
+        Board board = new Board(convertToList(tablero), color);
+        board.imprimirTablero();
+
+        // Retraso
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private List<Piece> convertToList(Piece[][] tablero) {
+        List<Piece> pieces = new ArrayList<>();
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+                if (tablero[i][j] != null) {
+                    pieces.add(tablero[i][j]);
+                }
+            }
+        }
+        return pieces;
+    }
+
     private int compare(Piece a, Piece b) {
-        return customOrder.get(a.name) - customOrder.get(b.name);
+        Integer orderA = customOrder.get(a.name);
+        Integer orderB = customOrder.get(b.name);
+
+        if (orderA == null || orderB == null) {
+            throw new IllegalArgumentException("La pieza " + a.name + " o " + b.name + " no está definida en el orden personalizado.");
+        }
+
+        return orderA - orderB;
     }
 }
