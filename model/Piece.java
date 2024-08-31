@@ -4,7 +4,6 @@ public class Piece implements Comparable<Piece> {
     public String name;
     public String color;
 
-
     public Piece(int value, char color) {
         this.name = String.valueOf(value);
         this.color = (color == 'b') ? "Black" : "White";

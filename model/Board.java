@@ -50,7 +50,6 @@ public class Board {
     }
 
     public void imprimirTablero() {
-        // Tabla de correspondencias para números y letras
         String[] piezas = {
                 "0", "K", "Q", "T", "T", "A", "A", "C", "C",
                 "P", "P", "P", "P", "P", "P", "P", "P"
@@ -94,15 +93,6 @@ public class Board {
 
             }
             System.out.println();
-        }
-    }
-
-    public void imprimirTableroConRetraso(int delay) {
-        imprimirTablero();
-        try {
-            Thread.sleep(delay);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
         }
     }
 

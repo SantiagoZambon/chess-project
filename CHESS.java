@@ -2,14 +2,15 @@
 //! Main
 import java.util.List;
 import java.util.Random;
+
 import model.Board;
 import model.Piece;
 import model.PieceFactory;
+
 import utils.ParameterValidator;
+
 import algorithms.SortAlgorithm;
-import algorithms.BubbleSort;
-import algorithms.InsertionSort;
-import algorithms.QuickSort;
+import algorithms.Algorithms;
 
 public class CHESS {
 
@@ -41,7 +42,7 @@ public class CHESS {
             if (param != null && !param.isEmpty()) {
                 pieceCount = Integer.parseInt(param);
             } else {
-                pieceCount = 16; // Valor por defecto si no se proporciona el parámetro "r"
+                pieceCount = 16; // Valor por defecto
             }
         } catch (NumberFormatException e) {
             pieceCount = 0;
@@ -54,7 +55,7 @@ public class CHESS {
             if (speedParam != null && !speedParam.isEmpty()) {
                 speed = Integer.parseInt(speedParam);
             } else {
-                speed = 500; // Valor por defecto si no se proporciona un parámetro "s"
+                speed = 500; // Valor por defecto
             }
         } catch (NumberFormatException e) {
             speed = 0;
@@ -63,59 +64,62 @@ public class CHESS {
         // ? VALIDACIONES
         // * Validacion algotirmo de ordenamiento
         if (!ParameterValidator.validateAlgorithms(sortAlgorithm)) {
-            System.out.println("Ordenamiento: Invalido");
+            System.out.println("Ordenamiento: Seleccione uno de los tres disponibles <b, i, q>");
             return;
         }
 
         // * Validacion tipo de lista
         if (!ParameterValidator.validateType(listType)) {
-            System.out.println("Tipo: Invalido");
+            System.out.println("Tipo: Seleccione tipo numerico <n> o tipo caracteres <c>");
             return;
         }
 
         // * Validacion color b o w
         if (!ParameterValidator.validateColors(color)) {
-            System.out.println("Color: Invalido");
+            System.out.println("Color: Seleccione black <b> o white <w>");
             return;
         }
 
         // * Validacion cantidad de piezas
         if (!ParameterValidator.validateRange(pieceCount)) {
-            System.out.println("Valores: Invalidos");
+            System.out.println("Valores: Selecciones un numero entre 1 y 16");
             return;
         }
 
         // * Validacion cantidad de piezas
         if (!ParameterValidator.validateSpeed(speed)) {
-            System.out.println("Velocidad: Invalidos");
+            System.out.println("Velocidad: Selecciones un numero entre 100 y 1000");
             return;
         }
 
         // ? MOSTRAR CONFIGURACION
-        System.out.println("Ordenamiento: [" + getAlgorithmName(sortAlgorithm) + "]");
+        System.out.println("CONFIGURACION:");
+        System.out.println("Algoritmo: [" + getAlgorithmName(sortAlgorithm) + "]");
         System.out.println("Tipo: [" + (listType == 'n' ? "Numerico" : "Caracter") + "]");
         System.out.println("Color: [" + (color == 'b' ? "Negras" : "Blancas") + "]");
+        System.out.println("Velocidad: [" + speed + "ms]");
 
         PieceFactory factory = new PieceFactory();
         List<Piece> pieces = factory.generatePieces(listType, color, pieceCount);
         System.out.println("Valores: " + pieces);
 
-        // Creamos una instancia de Board
+        // ? TABLERO
         Board board = new Board(pieces, color);
 
-        // Imprimimos el tablero
         board.imprimirTablero();
+
+        // ?ALGORITMO
         SortAlgorithm sorter = getSorter(sortAlgorithm);
 
         if (sorter != null) {
+            // Ejecutar algoritmo
             sorter.sort(board.getTablero(), speed, color);
             System.out.println("\nTablero Ordenado:");
             board.imprimirTablero();
-        } else {
-            System.out.println("Ordenamiento: []");
         }
     }
 
+    // ? FUNCIONES
     private static String getParameter(String[] args, String key) {
         for (String arg : args) {
             if (arg.startsWith(key + "=")) {
@@ -128,11 +132,11 @@ public class CHESS {
     private static SortAlgorithm getSorter(String sortAlgorithm) {
         switch (sortAlgorithm.toLowerCase()) {
             case "i":
-                return new InsertionSort();
+                return new Algorithms("i");
             case "q":
-                return new QuickSort();
+                return new Algorithms("q");
             case "b":
-                return new BubbleSort();
+                return new Algorithms("b");
             default:
                 return null;
         }
