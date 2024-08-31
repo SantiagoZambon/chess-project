@@ -1,23 +1,14 @@
-# Project Capstopne - Chess
+# Project Capstone - Chess
 
-![](images/chess-portada.png)
+![Chess Portada](images/chess-portada.png)
 
-**Descripcion:**
-Desarrollo de un simulador de Ajedrez en Java que aplique los principios
-de la Programación Orientada a Objetos (POO) para la creación de las
-piezas y utilice algoritmos de ordenamiento para organizarlas en un
-tablero de ajedrez de 8x8.
-
-**Importante:**
-Todo el codigo del proyecto, es solo una maqueta para esta entrega parcial, tiene mucho que mejorar y ademas de mejores practicas.
+**Descripción:**
+Este proyecto consiste en el desarrollo de un simulador de ajedrez en Java, diseñado para aplicar los principios de la Programación Orientada a Objetos (POO) en la creación de las piezas de ajedrez. Además, se incorporan algoritmos de ordenamiento para organizar estas piezas en un tablero de ajedrez de 8x8.
 
 **Detalles:**
-Este proyecto hace uso de tres algoritmos de ordenamiento Insertion Sort, Quick Sort, Bubble Sort. Estos algoritmos se puede escoger mediante el la entrada por CLI, en el caso de no escoger ningún algoritmo se asignará alguno aleatoriamente.
+El proyecto implementa tres algoritmos de ordenamiento: **Insertion Sort**, **Quick Sort**, y **Bubble Sort**. Estos algoritmos pueden ser seleccionados a través de la línea de comandos (CLI). En caso de no especificar un algoritmo, se asignará uno aleatoriamente.
 
-## Evidencia de ejecucion
-![](evidence/Evidence-1.png)
-![](evidence/Evidence-2.png)
-![](evidence/Evidence-3.png)
+---
 
-
-- Santiago Zambon
+**Autor:**
+Santiago Zambon

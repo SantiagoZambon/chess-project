@@ -5,17 +5,43 @@ import java.util.List;
 
 public class PieceFactory {
 
+    // * Método para generar una lista de piezas según el tipo de lista, color y
+    // cantidad
     public List<Piece> generatePieces(char listType, char color, int pieceCount) {
         List<Piece> pieces = new ArrayList<>();
+
+        int[] valoresNum = {};
+        char[] valoresCar = {};
+
+        // * Definir los valores de las piezas según la cantidad solicitada
+        if (pieceCount == 1 || pieceCount == 2) {
+            valoresNum = new int[] { 0, 0, 0, 1, 2 };
+            valoresCar = new char[] { '0', '0', '0', 'a', 'b' };
+            pieceCount += 3;
+        } else if (pieceCount == 3 || pieceCount == 4) {
+            valoresNum = new int[] { 0, 0, 1, 2, 5, 6 };
+            valoresCar = new char[] { '0', '0', 'a', 'b', 'e', 'f' };
+            pieceCount += 2;
+        } else if (pieceCount == 5 || pieceCount == 6) {
+            valoresNum = new int[] { 0, 1, 2, 5, 6, 7, 8 };
+            valoresCar = new char[] { '0', 'a', 'b', 'e', 'f', 'g', 'h' };
+            pieceCount += 1;
+        } else if (pieceCount == 7 || pieceCount == 8) {
+            valoresNum = new int[] { 1, 2, 5, 6, 7, 8, 3, 4 };
+            valoresCar = new char[] { 'a', 'b', 'e', 'f', 'g', 'h', 'c', 'd' };
+        } else {
+            valoresNum = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            valoresCar = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p' };
+        }
+
+        // * Generar la lista de piezas según el tipo (numérico o caracter)
         if (listType == 'n') {
-            int[] valores = { 5, 8, 15, 16, 1, 2, 9, 10, 11, 6, 7, 13, 14, 3, 4, 12 };
             for (int i = 0; i < pieceCount; i++) {
-                pieces.add(new Piece(valores[i], color));
+                pieces.add(new Piece(valoresNum[i], color));
             }
         } else if (listType == 'c') {
-            char[] valores = { 'm', 'j', 'k', 'l', 'e', 'n', 'c', 'd', 'b', 'g', 'h', 'i', 'f', 'o', 'p', 'a' };
             for (int i = 0; i < pieceCount; i++) {
-                pieces.add(new Piece(valores[i], color));
+                pieces.add(new Piece(valoresCar[i], color));
             }
         }
         return pieces;

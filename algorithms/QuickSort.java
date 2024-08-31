@@ -1,30 +1,33 @@
-//! Algoritmo Quick
 package algorithms;
 
 import java.util.List;
-import model.Piece;
 import java.util.Collections;
+import model.Piece;
 
-public class QuickSort implements SortAlgorithm {
+public class QuickSort {
 
-    @Override
-    public void sort(List<Piece> pieces) {
-        quickSort(pieces, 0, pieces.size() - 1);
-    }
-
-    private void quickSort(List<Piece> pieces, int low, int high) {
+    //! Quick Sort
+    public static void quickSort(List<Piece> pieces, int low, int high, Piece[][] tablero, int delay, char color) {
         if (low < high) {
             int pi = partition(pieces, low, high);
-            quickSort(pieces, low, pi - 1);
-            quickSort(pieces, pi + 1, high);
+
+            // Reset tablero
+            Algorithms.reconstruirTablero(tablero, pieces);
+            Algorithms.imprimirTableroConRetraso(tablero, delay, color);
+
+            // Ordenar las sublistas
+            quickSort(pieces, low, pi - 1, tablero, delay, color); // Sublista izquierda
+            quickSort(pieces, pi + 1, high, tablero, delay, color); // Sublista derecha
         }
     }
 
-    private int partition(List<Piece> pieces, int low, int high) {
-        Piece pivot = pieces.get(high);
-        int i = low - 1;
+    // * Método auxiliar para realizar la partición
+    private static int partition(List<Piece> pieces, int low, int high) {
+        Piece pivot = pieces.get(high); 
+        int i = low - 1; 
         for (int j = low; j < high; j++) {
-            if (pieces.get(j).compareTo(pivot) <= 0) {
+            // Si la pieza actual es menor o igual al pivote
+            if (Algorithms.compare(pieces.get(j), pivot) <= 0) {
                 i++;
                 Collections.swap(pieces, i, j);
             }
@@ -32,4 +35,5 @@ public class QuickSort implements SortAlgorithm {
         Collections.swap(pieces, i + 1, high);
         return i + 1;
     }
+
 }

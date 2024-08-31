@@ -3,7 +3,7 @@ package utils;
 import java.util.Arrays;
 import java.util.List;
 
-public class ParameterValidator{
+public class ParameterValidator {
 
     // * Validacion algoritmo
     public static boolean validateAlgorithms(String sortAlgorithm) {
@@ -29,5 +29,10 @@ public class ParameterValidator{
     // * Validacion de rango
     public static boolean validateRange(int pieceCount) {
         return pieceCount > 0 && pieceCount <= 16;
+    }
+
+    // * Validacion de velocidad
+    public static boolean validateSpeed(int speed) {
+        return speed >= 100 && speed <= 1000;
     }
 }

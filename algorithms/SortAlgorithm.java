@@ -1,9 +1,8 @@
-//! Interfaz
 package algorithms;
 
-import java.util.List;
 import model.Piece;
 
+//! Interfaz
 public interface SortAlgorithm {
-    void sort(List<Piece> pieces);
+    void sort(Piece[][] tablero, int delay, char color);
 }
