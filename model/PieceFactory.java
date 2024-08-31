@@ -5,12 +5,15 @@ import java.util.List;
 
 public class PieceFactory {
 
+    // * Método para generar una lista de piezas según el tipo de lista, color y
+    // cantidad
     public List<Piece> generatePieces(char listType, char color, int pieceCount) {
         List<Piece> pieces = new ArrayList<>();
 
         int[] valoresNum = {};
         char[] valoresCar = {};
 
+        // * Definir los valores de las piezas según la cantidad solicitada
         if (pieceCount == 1 || pieceCount == 2) {
             valoresNum = new int[] { 0, 0, 0, 1, 2 };
             valoresCar = new char[] { '0', '0', '0', 'a', 'b' };
@@ -31,6 +34,7 @@ public class PieceFactory {
             valoresCar = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p' };
         }
 
+        // * Generar la lista de piezas según el tipo (numérico o caracter)
         if (listType == 'n') {
             for (int i = 0; i < pieceCount; i++) {
                 pieces.add(new Piece(valoresNum[i], color));

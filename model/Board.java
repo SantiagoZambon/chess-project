@@ -10,26 +10,27 @@ public class Board {
     private char color;
 
     public Board(List<Piece> valores, char color) {
-        this.valores = new ArrayList<>(valores); // Guardamos la lista de piezas
+        this.valores = new ArrayList<>(valores);
         this.tablero = new Piece[8][8];
         this.color = color;
         llenarTablero();
     }
 
+    // * Método para llenar el tablero con las piezas
     private void llenarTablero() {
         List<int[]> posiciones = new ArrayList<>();
 
-        // Crear una lista de todas las posiciones posibles en la matriz
+        // Crear una lista con todas las posibles posiciones del tablero
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 posiciones.add(new int[] { i, j });
             }
         }
 
-        // Mezclar las posiciones
+        // Mezclar las posiciones para distribuir las piezas aleatoriamente
         Collections.shuffle(posiciones);
 
-        // Asignar las piezas a las posiciones aleatorias en la matriz
+        // Asignar las piezas a posiciones aleatorias en la matriz
         int index = 0;
         for (Piece pieza : valores) {
             int[] pos = posiciones.get(index);
@@ -37,7 +38,8 @@ public class Board {
             index++;
         }
 
-        // Rellenar el resto de la matriz con null si quedan posiciones sin asignar
+        // Rellenar el resto del tablero con null si quedan posiciones sin asignar
+        // piezas
         while (index < posiciones.size()) {
             int[] pos = posiciones.get(index);
             tablero[pos[0]][pos[1]] = null;
@@ -45,10 +47,12 @@ public class Board {
         }
     }
 
+    // * Devuelve la matriz que representa el tablero
     public Piece[][] getTablero() {
         return tablero;
     }
 
+    // * Imprime el tablero
     public void imprimirTablero() {
         String[] piezas = {
                 "0", "K", "Q", "T", "T", "A", "A", "C", "C",
@@ -59,7 +63,7 @@ public class Board {
                 "P", "P", "P", "P", "P", "P", "P", "P",
         };
 
-        // Imprimimos el tablero con las piezas correspondientes
+        // Imprime el tablero fila por fila
         for (int i = 0; i < 8; i++) {
             System.out.println("+--++--++--++--++--++--++--++--+");
             for (int j = 0; j < 8; j++) {
@@ -76,6 +80,8 @@ public class Board {
                     }
 
                 } else {
+
+                    // Imprime las casillas vacías con los colores de tablero alternados
                     if (j % 2 == 0) {
                         if (i % 2 != 0) {
                             System.out.print("|⬜|");
@@ -96,6 +102,7 @@ public class Board {
         }
     }
 
+    // * Verifica cadena es numérica
     private boolean isNumeric(String str) {
         try {
             Integer.parseInt(str);
@@ -105,6 +112,7 @@ public class Board {
         }
     }
 
+    // * Verifica cadena es alfabética
     private boolean isAlphabetic(String str) {
         return str.matches("[a-p]");
     }
