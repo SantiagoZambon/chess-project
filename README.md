@@ -1,6 +1,6 @@
 # Project Capstone - Chess
 
-![Chess Portada](images/chess-portada.png)
+![Chess Portada](images/chess-portada-2.png)
 
 **Descripción:**
 Este proyecto consiste en el desarrollo de un simulador de ajedrez en Java, diseñado para aplicar los principios de la Programación Orientada a Objetos (POO) en la creación de las piezas de ajedrez. Además, se incorporan algoritmos de ordenamiento para organizar estas piezas en un tablero de ajedrez de 8x8.
